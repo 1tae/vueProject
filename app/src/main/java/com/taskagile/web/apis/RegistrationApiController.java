@@ -7,8 +7,6 @@ import com.taskagile.domain.model.user.UsernameExistsException;
 import com.taskagile.web.payload.RegistrationPayload;
 import com.taskagile.web.results.ApiResult;
 import com.taskagile.web.results.Result;
-
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +19,7 @@ public class RegistrationApiController {
 
   private UserService service;
 
-  public RegistrationApiController(@Lazy UserService service) {
+  public RegistrationApiController(UserService service) {
     this.service = service;
   }
 

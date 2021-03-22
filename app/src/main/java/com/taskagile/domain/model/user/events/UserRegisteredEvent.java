@@ -2,7 +2,6 @@ package com.taskagile.domain.model.user.events;
 
 import com.taskagile.domain.common.event.DomainEvent;
 import com.taskagile.domain.model.user.User;
-
 import org.springframework.util.Assert;
 
 public class UserRegisteredEvent extends DomainEvent {

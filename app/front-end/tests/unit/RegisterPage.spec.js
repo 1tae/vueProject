@@ -91,16 +91,22 @@ describe('RegisterPage.vue', () => {
     wrapper.vm.form.username = 'sunny'
     wrapper.vm.form.emailAddress = 'sunny@taskagile.com'
     wrapper.vm.form.password = 'JestRocks!'
+    fieldUsername.setValue(wrapper.vm.form.username)
+    fieldEmailAddress.setValue(wrapper.vm.form.emailAddress)
+    fieldPassword.setValue(wrapper.vm.form.password)
     wrapper.vm.submitForm()
     expect(registerSpy).toBeCalled()
     await wrapper.vm.$nextTick()
-    expect(stub).toHaveBeenCalledWith({name: 'LoginPage'})
+    expect(stub).toHaveBeenCalledWith({name: 'login'})
   })
 
   it('should fail when the email address is invalid', () => {
     wrapper.vm.form.username = 'test'
     wrapper.vm.form.emailAddress = 'bad-email-address'
     wrapper.vm.form.password = 'JestRocks!'
+    fieldUsername.setValue(wrapper.vm.form.username)
+    fieldEmailAddress.setValue(wrapper.vm.form.emailAddress)
+    fieldPassword.setValue(wrapper.vm.form.password)
     wrapper.vm.submitForm()
     expect(registerSpy).not.toHaveBeenCalled()
   })
@@ -109,6 +115,9 @@ describe('RegisterPage.vue', () => {
     wrapper.vm.form.username = 'a'
     wrapper.vm.form.emailAddress = 'test@taskagile.com'
     wrapper.vm.form.password = 'JestRocks!'
+    fieldUsername.setValue(wrapper.vm.form.username)
+    fieldEmailAddress.setValue(wrapper.vm.form.emailAddress)
+    fieldPassword.setValue(wrapper.vm.form.password)
     wrapper.vm.submitForm()
     expect(registerSpy).not.toHaveBeenCalled()
   })
@@ -117,6 +126,9 @@ describe('RegisterPage.vue', () => {
     wrapper.vm.form.username = 'test'
     wrapper.vm.form.emailAddress = 'test@taskagile.com'
     wrapper.vm.form.password = 'bad!'
+    fieldUsername.setValue(wrapper.vm.form.username)
+    fieldEmailAddress.setValue(wrapper.vm.form.emailAddress)
+    fieldPassword.setValue(wrapper.vm.form.password)
     wrapper.vm.submitForm()
     expect(registerSpy).not.toHaveBeenCalled()
   })
