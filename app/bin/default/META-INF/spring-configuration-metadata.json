@@ -1,0 +1,18 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.taskagile.config.ApplicationProperties",
+      "name": "app",
+      "type": "com.taskagile.config.ApplicationProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.taskagile.config.ApplicationProperties",
+      "name": "app.mail-from",
+      "description": "Default `from` value of emails sent out by the system",
+      "type": "java.lang.String"
+    }
+  ]
+}
