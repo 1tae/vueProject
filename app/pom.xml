@@ -94,6 +94,11 @@
       <version>1.16</version>
     </dependency>
     <dependency>
+      <groupId>p6spy</groupId>
+      <artifactId>p6spy</artifactId>
+      <version>3.7.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>9.3-1100-jdbc41</version>
@@ -163,20 +168,6 @@
               <arguments>
                 <argument>run</argument>
                 <argument>build</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>front-end e2e test</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>integration-test</phase>
-            <configuration>
-              <executable>npm</executable>
-              <arguments>
-                <argument>run</argument>
-                <argument>test:integration</argument>
               </arguments>
             </configuration>
           </execution>

@@ -3,12 +3,15 @@ import Vuelidate from 'vuelidate'
 import VueRouter from 'vue-router'
 import LoginPage from '@/views/LoginPage'
 import authenticationService from '@/services/authentication'
+import { i18n } from '@/i18n'
 
 // Setup local Vue with Vuelidate
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.use(VueRouter)
-const router = new VueRouter()
+const router = new VueRouter({
+  mode: 'history'
+})
 
 // Mock dependency registratioService
 jest.mock('@/services/authentication')
@@ -23,7 +26,8 @@ describe('LoginPage.vue', () => {
   beforeEach(() => {
     wrapper = mount(LoginPage, {
       localVue,
-      router
+      router,
+      i18n
     })
     fieldUsername = wrapper.find('#username')
     fieldPassword = wrapper.find('#password')
@@ -43,7 +47,7 @@ describe('LoginPage.vue', () => {
 
   it('should render login form', () => {
     expect(wrapper.find('.logo').attributes().src)
-      .toEqual('/static/images/logo.png')
+      .toEqual('/images/logo.png')
     expect(wrapper.find('.tagline').text())
       .toEqual('Open source task management tool')
     expect(fieldUsername.element.value).toEqual('')
@@ -66,8 +70,6 @@ describe('LoginPage.vue', () => {
 
     wrapper.vm.form.username = username
     wrapper.vm.form.password = password
-    fieldUsername.setValue(wrapper.vm.form.username)
-    fieldPassword.setValue(wrapper.vm.form.password)
     expect(fieldUsername.element.value).toEqual(username)
     expect(fieldPassword.element.value).toEqual(password)
   })
@@ -85,12 +87,23 @@ describe('LoginPage.vue', () => {
     wrapper.vm.$router.push = stub
     wrapper.vm.form.username = 'sunny'
     wrapper.vm.form.password = 'JestRocks!'
-    fieldUsername.setValue(wrapper.vm.form.username)
-    fieldPassword.setValue(wrapper.vm.form.password)
     wrapper.vm.submitForm()
     expect(authenticateSpy).toBeCalled()
     await wrapper.vm.$nextTick()
     expect(stub).toHaveBeenCalledWith({name: 'home'})
+  })
+
+  it('should fail when credentials are invalid', async () => {
+    expect.assertions(3)
+    // In the mock, only password `JestRocks!` combined with
+    // username `sunny` or `sunny@taskagile.com` is valid
+    wrapper.vm.form.username = 'sunny'
+    wrapper.vm.form.password = 'MyPassword!'
+    expect(wrapper.find('.failed').isVisible()).toBe(false)
+    wrapper.vm.submitForm()
+    expect(authenticateSpy).toBeCalled()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.failed').isVisible()).toBe(true)
   })
 
   it('should have validation to prevent invalid data submit', () => {
@@ -100,21 +113,17 @@ describe('LoginPage.vue', () => {
 
     // Only username is valid
     wrapper.vm.form.username = 'sunny'
-    fieldUsername.setValue(wrapper.vm.form.username)
     wrapper.vm.submitForm()
     expect(authenticateSpy).not.toHaveBeenCalled()
 
     // Only email is valid
     wrapper.vm.form.username = 'sunny@taskagile.com'
-    fieldUsername.setValue(wrapper.vm.form.username)
     wrapper.vm.submitForm()
     expect(authenticateSpy).not.toHaveBeenCalled()
 
     // Only password is valid
     wrapper.vm.form.password = 'MyPassword!'
     wrapper.vm.form.username = ''
-    fieldUsername.setValue(wrapper.vm.form.username)
-    fieldPassword.setValue(wrapper.vm.form.password)
     wrapper.vm.submitForm()
     expect(authenticateSpy).not.toHaveBeenCalled()
   })
